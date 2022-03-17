@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Device list</h1>
+    <p>token is {{ token }} <a href="{% url 'home' %}">change</a></p>
+    <p>{{ org }}</p>
+    <ul>
+        {% for device in devices %}
+        <li><a href="{% url 'reset' org_id=org.id famoco_id=device.famoco_id %}?token={{ token }}">{{ device.famoco_id }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
