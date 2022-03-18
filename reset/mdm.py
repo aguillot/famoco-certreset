@@ -1,6 +1,9 @@
 import json
 import requests
 
+from django.core.exceptions import PermissionDenied
+from django.http import Http404
+
 URL_BASE = "https://my.famoco.com/api/organizations/"
 URL_DEVICES = URL_BASE + "{}/devices/?famoco_id={}"
 URL_RESET = URL_BASE + "{}/devices/{}/reset_cert/"
@@ -14,15 +17,7 @@ def token_is_valid(token: str):
         },
     )
     if response_orgs.status_code == 200:
-        response_devices = requests.get(
-            URL_DEVICES.format(get_org(token)["id"], "") + "&page_size=1",
-            headers={
-                "Authorization": f"Bearer {token}",
-            },
-        )
-        print(response_devices.status_code)
-        if response_devices.status_code == 200:
-            return True
+        return True
     else:
         return False
 
@@ -49,9 +44,14 @@ def get_devices_with_cert(token: str, org_id: str, device_filter: str = ""):
             "Authorization": f"Bearer {token}",
         },
     )
+    if response.status_code != 200:
+        raise PermissionDenied("token doesn't have required permissions")
     json_data = json.loads(response.content)
-    dev_list = json_data["results"]
-    dev_with_cert = [dev for dev in dev_list if dev["cert_registered"]]
+    dev_list = json_data.get("results", None)
+    try:
+        dev_with_cert = [dev for dev in dev_list if dev["cert_registered"]]
+    except KeyError:
+        raise PermissionDenied
     return dev_with_cert
 
 
@@ -63,4 +63,6 @@ def reset_cert(token: str, famoco_id: str) -> int:
             "Authorization": f"Bearer {token}",
         },
     )
+    if response.status_code == 404:
+        raise Http404("device not found")
     return response.status_code
