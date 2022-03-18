@@ -19,11 +19,13 @@ class DevicesView(View):
             if not mdm.token_is_valid(token):
                 return HttpResponseRedirect(reverse("home"))
             org = mdm.get_org(token)
-            devices = mdm.get_devices_with_cert(token, org["id"])
+            device_filter = request.GET.get("device_filter", "")
+            devices = mdm.get_devices_with_cert(token, org["id"], device_filter)
             data = {
                 "token": token,
                 "org": org,
                 "devices": devices,
+                "device_filter": device_filter,
             }
             return render(request, "devices.html", data)
 
@@ -31,10 +33,12 @@ class DevicesView(View):
 class ResetView(View):
     def get(self, request: HttpRequest, org_id, famoco_id):
         token = request.GET.get("token")
+        device_filter = request.GET.get("device_filter")
         data = {
             "org_id": org_id,
             "famoco_id": famoco_id,
             "token": token,
             "status_code": mdm.reset_cert(token, famoco_id),
+            "device_filter": device_filter,
         }
         return render(request, "reset.html", data)

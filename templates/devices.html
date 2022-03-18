@@ -10,9 +10,18 @@
     <h1>Device list</h1>
     <p>token is {{ token }} <a href="{% url 'home' %}">change</a></p>
     <p>{{ org }}</p>
+    <p>
+        Enter part of the Famoco ID
+        <form action="">
+            <input type="hidden" name="token" value="{{ token }}">
+            <input type="text" name="device_filter" id="device_filter" value="{{ device_filter }}">
+            <button type="submit">filter</button>
+        </form>
+    </p>
+    <h2>devices with certificates</h2>
     <ul>
         {% for device in devices %}
-        <li><a href="{% url 'reset' org_id=org.id famoco_id=device.famoco_id %}?token={{ token }}">{{ device.famoco_id }}</a></li>
+        <li><a href="{% url 'reset' org_id=org.id famoco_id=device.famoco_id %}?token={{ token }}&device_filter={{ device_filter }}">{{ device.famoco_id }}</a></li>
         {% endfor %}
     </ul>
 </body>
