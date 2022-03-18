@@ -12,5 +12,6 @@
     <p>org id: {{ org_id }}</p>
     <p>famoco id: {{ famoco_id }}</p>
     <p>operation http status code {{ status_code }}</p>
+    <p><a href="{% url 'devices' %}?token={{ token }}&device_filter={{ device_filter }}">back to list</a></p>
 </body>
 </html>
