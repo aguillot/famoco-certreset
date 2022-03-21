@@ -20,13 +20,17 @@ class DevicesView(View):
                 return HttpResponseRedirect(reverse("home"))
             org = mdm.get_org(token)
             device_filter = request.GET.get("device_filter", "")
-            devices = mdm.get_devices_with_cert(token, org["id"], device_filter)
             data = {
                 "token": token,
                 "org": org,
-                "devices": devices,
                 "device_filter": device_filter,
             }
+            print(request.htmx)
+            if request.htmx:
+                data["devices"] = mdm.get_devices_with_cert(
+                    token, org["id"], device_filter
+                )
+                return render(request, "_devices_list.html", data)
             return render(request, "devices.html", data)
 
 

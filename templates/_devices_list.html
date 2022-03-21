@@ -1,0 +1,5 @@
+<ul>
+    {% for device in devices %}
+    <li><a href="{% url 'reset' org_id=org.id famoco_id=device.famoco_id %}?token={{ token }}&device_filter={{ device_filter }}">{{ device.famoco_id }}</a></li>
+    {% endfor %}
+</ul>
