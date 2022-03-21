@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
+    <div class="htmx-indicator loader">
+        <img src="{% static 'spin.svg' %}" alt="spinned"  >
+    </div>
     <h1>Device list</h1>
     <p>token is {{ token }} <a href="{% url 'home' %}">change</a></p>
     <p>{{ org }}</p>
     <p>
         Enter part of the Famoco ID
-        <form action="">
+        <form id="my-form" hx-get="{% url 'devices' %}" hx-target="#dev-list" hx-indicator=".loader">
             <input type="hidden" name="token" value="{{ token }}">
             <input type="text" name="device_filter" id="device_filter" value="{{ device_filter }}">
             <button type="submit">filter</button>
         </form>
     </p>
     <h2>devices with certificates</h2>
-    <ul>
-        {% for device in devices %}
-        <li><a href="{% url 'reset' org_id=org.id famoco_id=device.famoco_id %}?token={{ token }}&device_filter={{ device_filter }}">{{ device.famoco_id }}</a></li>
-        {% endfor %}
-    </ul>
+    <div id="dev-list" hx-get="{% url 'devices' %}?token={{ token }}&device_filter={{ device_filter }}" hx-trigger="load" hx-indicator=".loader"></div>
+    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
 </body>
 </html>
