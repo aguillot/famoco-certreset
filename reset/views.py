@@ -25,7 +25,6 @@ class DevicesView(View):
                 "org": org,
                 "device_filter": device_filter,
             }
-            print(request.htmx)
             if request.htmx:
                 data["devices"] = mdm.get_devices_with_cert(
                     token, org["id"], device_filter
