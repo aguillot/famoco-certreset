@@ -3,14 +3,11 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from django.urls import reverse
 
-from reset.forms import TokenForm
 from . import mdm
 
 
-class HomeView(View):
-    def get(self, request, *args, **kwargs):
-        form = TokenForm()
-        return render(request, "home.html", {"form": form})
+class HomeView(TemplateView):
+    template_name = "home.html"
 
 
 class DevicesView(View):
