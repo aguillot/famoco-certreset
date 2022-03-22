@@ -7,8 +7,8 @@
 <div class="columns is-centered">
     <div class="column is-narrow has-text-centered">
         <h1 class="title is-3">Devices for organization {{ org.name }} (ID {{ org.id }}) </h1>
-    <p class="mt-5">API Token: {{ token }}</p>
-    <p><a href="{% url 'home' %}">change API Token</a></p>
+    <p class="mt-5 has-text-weight-medium">API Token: {{ token }}</p>
+    <p><a class="has-text-weight-medium" href="{% url 'home' %}">change API Token</a></p>
     
         <form class="mt-5 is-flex is-align-content-center is-justify-content-center" id="my-form" hx-get="{% url 'devices' %}" hx-target="#dev-list" hx-indicator=".loader">
             <input type="hidden" name="token" value="{{ token }}">

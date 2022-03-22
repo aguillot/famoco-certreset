@@ -7,7 +7,7 @@
   <div class="column is-narrow has-text-centered">
     <h1 class="title is-3">Certificate reset done</h1>
     <p>Certificate reset for device {{ famoco_id }}</p>
-    <p class="mt-5"><a href="{% url 'devices' %}?token={{ token }}&device_filter={{ device_filter }}">Go back</a></p>
+    <p class="mt-5"><a class="has-text-weight-medium" href="{% url 'devices' %}?token={{ token }}&device_filter={{ device_filter }}">Go back</a></p>
   </div>
 </div>
 {% endblock content %}
