@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block title %}Home{% endblock title %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
 
 {% block content %}
 <div class="columns is-centered">
@@ -13,6 +15,16 @@
         <div class="control"><button type="submit" class="button is-primary is-small">Submit</button></div>
       </div>
     </form>
+
+    <h2 class="mt-6 is-size-5 has-text-weight-bold">Where to find this token ?</h2>
+    <p class="mt-5">
+      You need an enterprise MDM plan to generate an API token.<br>
+      Go to the API Access menu, and create a token with organization read permission and
+      device read and clear certificate permission.
+    </p>
+    <p class="mt-5">
+      <img src="{% static 'api_token.png' %}" alt="mdm token screenshot">
+    </p>
   </div>
 </div>
 {% endblock content %}
