@@ -1,19 +1,18 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Famoco Certificate Reset</title>
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-</head>
-<body>
-    <h1>Famoco Cert reset (sync auth failed)</h1>
-    <p>Enter token</p>
-    <form action="{% url 'devices' %}" method="get">
-        {{ form }}
-        <button type="submit">go</button>
+{% extends 'base.html' %} {% block title %}Home{% endblock title %}
+
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-narrow has-text-centered">
+    <h1 class="title is-3">
+      Famoco Certreset
+    </h1>
+
+    <form action="{% url 'devices' %}" method="get" class="mt-5 is-flex is-align-content-center is-justify-content-center">
+      <div class="field has-addons">
+        <div class="control"><input type="text" class="input is-primary is-small" name="token" id="token" placeholder="API Token"></div>
+        <div class="control"><button type="submit" class="button is-primary is-small">Submit</button></div>
+      </div>
     </form>
-</body>
-</html>
+  </div>
+</div>
+{% endblock content %}
