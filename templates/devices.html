@@ -1,30 +1,32 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cert reset devices list</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
-    <div class="htmx-indicator loader">
-        <img src="{% static 'spin.svg' %}" alt="spinned"  >
-    </div>
-    <h1>Device list</h1>
-    <p>token is {{ token }} <a href="{% url 'home' %}">change</a></p>
-    <p>{{ org }}</p>
-    <p>
-        Enter part of the Famoco ID
-        <form id="my-form" hx-get="{% url 'devices' %}" hx-target="#dev-list" hx-indicator=".loader">
+
+{% block title %}Device select{% endblock title %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-narrow has-text-centered">
+        <h1 class="title is-3">Devices for organization {{ org.name }} (ID {{ org.id }}) </h1>
+    <p class="mt-5">API Token: {{ token }}</p>
+    <p><a href="{% url 'home' %}">change API Token</a></p>
+    
+        <form class="mt-5 is-flex is-align-content-center is-justify-content-center" id="my-form" hx-get="{% url 'devices' %}" hx-target="#dev-list" hx-indicator=".loader">
             <input type="hidden" name="token" value="{{ token }}">
-            <input type="text" name="device_filter" id="device_filter" value="{{ device_filter }}">
-            <button type="submit">filter</button>
+            <div class="field has-addons">
+                <div class="control"><input type="text" class="input is-primary is-small" placeholder="Famoco ID" name="device_filter" id="device_filter" value="{{ device_filter }}"></div>
+                <div class="control"><button type="submit" class="button is-primary is-small">filter</button></div>
+            
+            </div>
+            
         </form>
-    </p>
-    <h2>devices with certificates</h2>
+    <h2 class="mt-5 is-size-5 has-text-weight-bold">devices with certificates</h2>
     <div id="dev-list" hx-get="{% url 'devices' %}?token={{ token }}&device_filter={{ device_filter }}" hx-trigger="load" hx-indicator=".loader"></div>
-    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
-</body>
-</html>
+    </div>
+    
+</div>
+
+
+<div class="htmx-indicator loader">
+    <img src="{% static 'spin.svg' %}" alt="spinned"  >
+</div>
+{% endblock content %}  
